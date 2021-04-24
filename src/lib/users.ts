@@ -26,20 +26,12 @@ export const fetchUsers = async (): Promise<User[]> => {
   }
 }
 
-export const saveUser = async (): Promise<User[]> => {
-  const response = await fetch(`${URL_BASE}/users`);
-  if (response.ok) {
-    return (await response.json());
-  } else {
-    throw new Error(`Coulnd't fetch users: ${response.text()}. Status: ${response.status}`);
-  }
-}
 
-export const deleteUser = async (): Promise<User[]> => {
-  const response = await fetch(`${URL_BASE}/users`);
+export const deleteUser = async (clientId: string, userId: string): Promise<any> => {
+  const response = await fetch(`${URL_BASE}/users/${userId}/client/${clientId}`, { method: "DELETE" });
   if (response.ok) {
     return (await response.json());
   } else {
-    throw new Error(`Coulnd't fetch users: ${response.text()}. Status: ${response.status}`);
+    throw new Error(`Coulnd't delete user: ${response.text()}. Status: ${response.status}`);
   }
 }

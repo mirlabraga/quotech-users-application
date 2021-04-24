@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers, User } from "../../lib/users";
+import { deleteUser, fetchUsers, User } from "../../lib/users";
 import './UsersList.css';
 
 const GENERIC_ERRO = "An error happened when the research request was being the search";
@@ -26,11 +26,13 @@ function UsersList({ initialUsers }: UsersListProps) {
   }, []);
 
 
-  const handleUserCheck = (user: User) => {
-    const newSelectedUsers = {
-      ...selectedUsers
-    }
-    setSeletedUsers(newSelectedUsers);
+  const handleUserDelete = (clientId: string, userId: string) => {
+    deleteUser(clientId, userId).then(result => {
+      console.log("delete user: ", result);
+    }).catch(e => {
+        console.error(e);
+        setMessage(GENERIC_ERRO);
+      })
   }
 
   return (
@@ -61,7 +63,7 @@ function UsersList({ initialUsers }: UsersListProps) {
               <td>{user.metadata.email}</td>
               <td>{user.metadata.role}</td>
               <td><a href="./">Edit</a></td>
-              <td><a href="./">Delete</a></td>
+              <td><a href="./" onClick={() => handleUserDelete(user.id.clientId, user.id.userId)}>Delete</a></td>
             </tr>)
           })}
         </tbody>
