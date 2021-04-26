@@ -1,18 +1,31 @@
-import React, { useState } from "react";
-import { Metadata, saveUser, User, Id } from "../../lib/users";
+import React, { useEffect, useState } from "react";
+import { Metadata, saveUser, User, Id, updateUser } from "../../lib/users";
 import "./UserNew.css"
 
 interface UsersListProps {
   users?: User[];
+  user?: User;
 }
 
-export function UserNew({ users }: UsersListProps) {
+export function UserNew({ users, user }: UsersListProps) {
 
-  const [userId, setUserId] = useState("");
-  const [clientId, setClientId] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("" || user?.id.userId);
+  const [clientId, setClientId] = useState("" || user?.id.clientId);
+  const [name, setName] = useState("" || user?.metadata.name);
+  const [email, setEmail] = useState("" || user?.metadata.email);
+  const [role, setRole] = useState("" || user?.metadata.role);
+  const [disabledId, seDisabledId] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      setUserId(user.id.userId);
+      setClientId(user.id.clientId);
+      setName(user.metadata.name);
+      setEmail(user.metadata.email);
+      setRole(user.metadata.role);
+      seDisabledId(false);
+    }
+  }, [user, disabledId])
 
   const handleSubmit = (evt: any) => {
       evt.preventDefault();
@@ -28,8 +41,18 @@ export function UserNew({ users }: UsersListProps) {
     }).catch(e => {
         console.error(e);
       })
-
       users = [];
+      cleanForm();
+  }
+
+  const cleanForm = () => {
+    setUserId("");
+    setClientId("");
+    setName("");
+    setEmail("");
+    setRole("");
+    user = undefined;
+    seDisabledId(true);
   }
 
   return (
@@ -41,11 +64,11 @@ export function UserNew({ users }: UsersListProps) {
       </tr>
       <tr>
         <td>User Id</td>
-        <td><input type="text" value={userId} onChange={e => setUserId(e.target.value)}/></td>
+        <td><input type="text" value={userId} disabled={!disabledId} onChange={e => setUserId(e.target.value)}/></td>
       </tr>
       <tr>
         <td>Client Id</td>
-        <td><input type="text" value={clientId} onChange={e => setClientId(e.target.value)}/></td>
+        <td><input type="text" value={clientId} disabled={!disabledId} onChange={e => setClientId(e.target.value)}/></td>
       </tr>
       <tr>
         <td>Name</td>

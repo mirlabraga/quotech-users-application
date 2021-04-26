@@ -6,16 +6,15 @@ const GENERIC_ERRO = "An error happened when the research request was being the 
 
 interface UsersListProps {
   initialUsers?: User[];
+  onUserChange?: (user: User) => void;
 }
-function UsersList({ initialUsers }: UsersListProps) {
+function UsersList({ initialUsers, onUserChange }: UsersListProps) {
 
   const [users, setUsers] = useState<User[]>(initialUsers || []);
-  //const [selectedUsers, setSeletedUsers] = useState<{ [key: string]: User }>({});
   const [message, setMessage] = useState('');
 
   React.useEffect(() => {
     fetchUsers().then(users => {
-      console.log("fetched users: ", users);
       setUsers(users);
     })
       .catch(e => {
@@ -33,6 +32,12 @@ function UsersList({ initialUsers }: UsersListProps) {
         console.error(e);
         setMessage(GENERIC_ERRO);
       })
+  }
+
+  const handleUserEdit = (user: User) => {
+    if (onUserChange) {
+      onUserChange(user);
+    }
   }
 
   return (
@@ -62,8 +67,8 @@ function UsersList({ initialUsers }: UsersListProps) {
               <td>{user.metadata.name}</td>
               <td>{user.metadata.email}</td>
               <td>{user.metadata.role}</td>
-              <td><a href="./">Edit</a></td>
-              <td><a href="./" onClick={() => handleUserDelete(user.id.clientId, user.id.userId)}>Delete</a></td>
+              <td><a href="#" onClick={() => handleUserEdit(user)}>Edit</a></td>
+              <td><a href="#" onClick={() => handleUserDelete(user.id.clientId, user.id.userId)}>Delete</a></td>
             </tr>)
           })}
         </tbody>

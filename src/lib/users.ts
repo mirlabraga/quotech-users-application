@@ -33,10 +33,19 @@ export const saveUser = async (user: User): Promise<any> => {
   if (response.ok) {
     return (await response.json());
   } else {
-    throw new Error(`Coulnd't fetch users: ${response.text()}. Status: ${response.status}`);
+    throw new Error(`Coulnd't save user: ${response.text()}. Status: ${response.status}`);
   }
 }
 
+export const updateUser = async (user: User): Promise<any> => {
+  const response = await fetch(`${URL_BASE}/users/${user.id.userId}/client/${user.id.clientId}`, {method: "PUT", body: JSON.stringify(user),
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+  if (response.ok) {
+    return (await response.json());
+  } else {
+    throw new Error(`Coulnd't update user: ${response.text()}. Status: ${response.status}`);
+  }
+}
 
 export const deleteUser = async (clientId: string, userId: string): Promise<any> => {
   const response = await fetch(`${URL_BASE}/users/${userId}/client/${clientId}`, { method: "DELETE" });

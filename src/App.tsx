@@ -6,12 +6,14 @@ import { User } from './lib/users';
 
 function App() {
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [users] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User>();
+
 
   return (
     <div>
-      <UserNew users={users}/>
-      <UsersList initialUsers={users}/>
+      <UserNew users={users} user={selectedUser}/>
+      <UsersList initialUsers={users} onUserChange={setSelectedUser} />
     </div>
   );
 }
