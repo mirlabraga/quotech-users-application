@@ -1,0 +1,13 @@
+.table {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  width: 50%;
+}
+.th {
+  background: SteelBlue;
+  color: white;
+}
+
+.button {
+  background:SteelBlue;
+  color: white;
+}

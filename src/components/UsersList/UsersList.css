@@ -1,0 +1,14 @@
+.table {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  width: 50%;
+}
+.th {
+  background: SteelBlue;
+  color: white;
+}
+ td, th {
+    border: 1px solid gray;
+    width: 25%;
+    text-align: left;
+    padding: 5px 10px;
+}
