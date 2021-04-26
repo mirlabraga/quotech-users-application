@@ -6,9 +6,8 @@
   background: SteelBlue;
   color: white;
 }
- td, th {
-    border: 1px solid gray;
-    width: 25%;
-    text-align: left;
-    padding: 5px 10px;
+
+.button {
+  background:SteelBlue;
+  color: white;
 }

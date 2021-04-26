@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { deleteUser, fetchUsers, User } from "../../lib/users";
 import './UsersList.css';
 
@@ -10,7 +10,7 @@ interface UsersListProps {
 function UsersList({ initialUsers }: UsersListProps) {
 
   const [users, setUsers] = useState<User[]>(initialUsers || []);
-  const [selectedUsers, setSeletedUsers] = useState<{ [key: string]: User }>({});
+  //const [selectedUsers, setSeletedUsers] = useState<{ [key: string]: User }>({});
   const [message, setMessage] = useState('');
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ function UsersList({ initialUsers }: UsersListProps) {
         setMessage(GENERIC_ERRO);
         setUsers([]);
       })
-  }, []);
+  }, [users]);
 
 
   const handleUserDelete = (clientId: string, userId: string) => {
